@@ -1,0 +1,8 @@
+model,rel_hp_delta
+mse,92.00
+nllbg,83.99
+combo_mse_nllbg,81.40
+combo_nllbg_spectral,55.43
+combo_nllbg_ssim,84.11
+combo_nllbg_gdl,84.24
+combo_nllbg_wavelet,81.03

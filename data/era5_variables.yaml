@@ -1,0 +1,9 @@
+pr_1d:
+  short: "Total Precipitation"
+  long: "The total amount of precipitation accumulated over one day."
+  unit: "mm"
+
+uas_1d:
+  short: "10m U-wind component"
+  long: "The zonal component of wind at 10 meters above the surface."
+  unit: "m/s"

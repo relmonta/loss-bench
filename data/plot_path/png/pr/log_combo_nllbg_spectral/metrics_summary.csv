@@ -1,0 +1,6 @@
+Model,mae,mse,ssim,gdl,spectral,wavelet,wavelet_complex,wasserstein,rx1day
+log_combo_nllbg_spectral,0.688,1476085.000,0.343,1599095.750,75.816,7.162,3.220,0.406,15363986.000
+log_combo_nllbg_spectral_wavelet,0.287,0.591,0.295,0.459,0.308,0.365,0.340,0.033,1300.861
+log_combo_nllbg_spectral_gdl,1.816,29974614.000,0.368,32472484.000,295.520,7.264,14.838,1.563,70155256.000
+log_combo_mse_nllbg_spectral,0.320,368.019,0.352,398.486,4.200,0.532,0.590,0.056,133079.812
+log_combo_nllbg_fmse_spectral,0.428,43459.008,0.380,47080.254,23.996,1.177,1.566,0.164,1969120.875

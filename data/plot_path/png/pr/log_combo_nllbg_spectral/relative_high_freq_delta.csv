@@ -1,0 +1,6 @@
+model,rel_hp_delta
+log_combo_nllbg_spectral,507553408.13
+log_combo_nllbg_spectral_wavelet,40.30
+log_combo_nllbg_spectral_gdl,10306588031.53
+log_combo_mse_nllbg_spectral,126405.62
+log_combo_nllbg_fmse_spectral,14943213.91
