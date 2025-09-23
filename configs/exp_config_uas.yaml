@@ -1,0 +1,54 @@
+name: "loss_benchmarking_uas"
+
+# Training configuration
+training:
+  batch_size: 32
+  # If the batch size is too large to fit in memory, you can accumulate gradients.
+  accumulate_grad_batches: 4
+  epochs: 30
+  # Max learning rate
+  learning_rate: 0.001
+  criterion: "mae"            
+  weight_decay: 0.001
+  # Metrics computed during training and validation
+  metrics: ["mae", "mse", "spectral", "wavelet", "ssim", "gdl", "wavelet_complex"]
+  num_workers: 16
+  loss_config_path: 'configs/losses_uas.yaml'  # Path to the loss configuration file
+  weights_path: 'training/weights/'
+  plot_path: 'data/plot_path/'
+  inference_res_path: 'data/inference/'
+
+data:
+  train:
+    start_date: "1980-01-01"
+    end_date: "2017-12-31"
+  val:
+    start_date: "2018-01-01"
+    end_date: "2021-12-31"
+  test:
+    start_date: "2022-01-01"
+    end_date: "2023-12-31"
+  variable: "uas"
+  # Update if your data is in a different location
+  # This path should contain the ERA5 data files in NetCDF format for each year.
+  # each variable should be in a separate folder named "<var>_1d"
+  # If your data is in a different format, you may need to modify the dataset class in data/dataset.py
+  data_path: 'data/data/'
+  kwargs_train_val:
+    # Training region
+    apply_log: false  
+    extent: [-19, 45, 17, 81]  
+    downscaling_factor: 4
+    normalize: false
+    standardize: true
+    stats_file: 'data/era5_stats.pkl'
+
+inference:
+  inference_path: 'data/inference/'
+
+model:
+  params:
+    patch_size: 16
+    emb_dim: 128
+    num_heads: 8
+    num_layers: 6

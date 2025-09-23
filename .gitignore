@@ -1,0 +1,7 @@
+training/logs
+data/inference
+data/data/pr_1d
+data/data/uas_1d
+slurm
+data/plot_path/pdf
+training/weights

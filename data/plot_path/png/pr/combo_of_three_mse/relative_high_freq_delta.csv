@@ -1,0 +1,9 @@
+model,rel_hp_delta
+mse,92.00
+combo_mse_ssim_spectral,86.74
+combo_mse_spectral_wavelet,71.96
+combo_mse_wavelet_gdl,91.13
+combo_mse_gdl_spectral,73.65
+combo_mse_ssim_wavelet,89.15
+combo_mse_ssim_gdl,91.14
+combo_fmse_spectral_wavelet,61.97

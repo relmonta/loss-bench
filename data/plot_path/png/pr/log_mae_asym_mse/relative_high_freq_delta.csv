@@ -1,0 +1,6 @@
+model,rel_hp_delta
+mse,92.00
+mae,91.54
+log_mae,87.27
+asym,88.51
+log_asym,85.92

@@ -1,0 +1,6 @@
+model,rel_hp_delta
+mae,48.89
+combo_mae_ssim,47.53
+combo_mae_spectral,35.32
+combo_mae_wavelet,50.97
+combo_mae_gdl,51.45

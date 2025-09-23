@@ -1,0 +1,6 @@
+model,rel_hp_delta
+mse,92.00
+log_combo_fmse_ssim,74.48
+log_combo_fmse_spectral,42.55
+log_combo_fmse_wavelet,82.89
+log_combo_fmse_gdl,157.92
