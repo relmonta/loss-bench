@@ -127,7 +127,7 @@ class SingleVariableDataset(Dataset):
         self.mean_x, self.std_x = 0, 0
         self.var_details = {}
 
-        if not self.inference:
+        if not self.inference: # self.inference concerns only the training dataset
             print(
                 f"Loading {self.variable.upper()} data from {self.start_date.year} to {self.end_date.year}...")
             for year in tqdm(range(self.start_date.year, self.end_date.year + 1), desc="Loading data", colour="blue"):
@@ -150,10 +150,6 @@ class SingleVariableDataset(Dataset):
                 print("Saving updated normalization stats...")
                 with open(self.stats_file, "wb") as f:
                     pickle.dump(self.normalization_stats, f)
-        else:
-            ds = get_netcdf(self.data_path, var_name, self.start_date.year)
-            self.latitudes = ds.latitude.values
-            self.longitudes = ds.longitude.values
 
         # In train, validation or test mode, always use stats from training period
         var_name_ = var_name + "_log" if self.apply_log_flag else var_name
