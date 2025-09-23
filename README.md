@@ -4,7 +4,7 @@ Benchmarking training losses for deep learning-based statistical downscaling of 
 
 ## Overview
 
-This repository provides source code from our paper **Training loss matters: exploring new loss combinations for statistical downscaling**. The code includes a general framework for implementing and benchmarking various loss functions for two variables: 10m wind speed and precipitation and can be extended to other variables.
+This repository provides source code from our paper **Training loss matters: exploring new fit-for-purpose loss combinations for statistical downscaling**. The code includes a general framework for implementing and benchmarking various loss functions for two variables: 10m wind speed and precipitation and can be extended to other variables.
 
 ![](data/plot_path/png/pr/best_of_visually_all/event_zoom_2020-03-02.png)
 
@@ -61,10 +61,20 @@ pip install -r requirements.txt
 Training and loss settings are specified in the following YAML files:
 * `configs/exp_config_*.yaml` – experiment/training setup (* : `pr` or `uas`)
 * `configs/losses_*.yaml` – list of losses and their parameters
-* `evaluation/compare_*.yaml` – comparison settings for evaluation
 
 
 Make sure to check the paths in the config files in `configs/exp_config_*.yaml` and modify them as needed.
+
+## Evaluation
+
+Set the comparison settings in `evaluation/compare_*.yaml`, then run the evaluation script.
+Example (precipitation):
+
+```bash
+python -m evaluation.evaluate_pr
+```
+
+This generates a comparison of all models specified in `evaluation/compare_*.yaml`. Plots are saved in `data/plot_path` or as specified in the `configs/exp_config_*.yaml` file.
 
 ## Training
 
@@ -80,14 +90,3 @@ Arguments:
 * `-var_name` : variable name (`pr` or `uas`)
 * `--criterion "<loss_name>"` : if specified, ignores loss in config and uses this loss instead
 * `--resume` : resume from a checkpoint if available (only best model is stored)
-
-## Evaluation
-
-Set the comparison settings in `evaluation/compare_*.yaml`, then run the evaluation script.
-Example (precipitation):
-
-```bash
-python -m evaluation.evaluate_pr
-```
-
-This generates a comparison of all models specified in `evaluation/compare_*.yaml`. Plots are saved in `data/plot_path` or as specified in the `configs/exp_config_*.yaml` file.

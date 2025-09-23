@@ -28,150 +28,150 @@ comparisons:
     - nllbg
     - asym
     - wavelet_complex
-  combo_nllbg_plus:
-    - mse
-    - nllbg
-    - combo_mse_nllbg
-    - combo_nllbg_spectral
-    - combo_nllbg_ssim
-    - combo_nllbg_gdl
-    - combo_nllbg_wavelet
-  combo_mse_plus: 
-    - mse
-    - combo_mse_ssim
-    - combo_mse_spectral
-    - combo_mse_wavelet
-    - combo_mse_gdl
-  combo_fmse_plus: 
-    - mse
-    - combo_fmse_ssim
-    - combo_fmse_spectral
-    - combo_fmse_wavelet
-    - combo_fmse_gdl
-  combo_of_three_nllbg: 
-    - mse
-    - combo_mse_nllbg_spectral
-    - combo_nllbg_spectral_wavelet
-    - combo_nllbg_ssim_spectral
-    - combo_nllbg_spectral_gdl
-    - combo_mse_nllbg_gdl
-    - combo_mse_nllbg_wavelet
-    - combo_nllbg_fmse_spectral
-  combo_of_three_mse: 
-    - mse
-    - combo_mse_ssim_spectral
-    - combo_mse_spectral_wavelet
-    - combo_mse_wavelet_gdl
-    - combo_mse_gdl_spectral
-    - combo_mse_ssim_wavelet
-    - combo_mse_ssim_gdl
-    - combo_fmse_spectral_wavelet
-  combo_of_three_best_of:
-    - mse
-    - combo_mse_ssim_wavelet
-    - combo_mse_ssim_spectral
-    - combo_mse_nllbg_wavelet
-    - combo_mse_nllbg_gdl
-    - combo_mse_nllbg_spectral
-  log_mae_mse_ssim_nllbg_asym_wavelet:
-    - mse
-    - log_mse
-    - log_mae  
-    - log_ssim
-    - log_nllbg
-    - log_asym
-    - log_wavelet_complex
-  log_combo_nllbg_plus: 
-    - mse
-    - log_nllbg
-    - log_combo_mse_nllbg
-    - log_combo_nllbg_ssim
-    - log_combo_nllbg_gdl
-    - log_combo_nllbg_wavelet
-  log_combo_mse_plus: 
-    - mse
-    - log_combo_mse_ssim
-    - log_combo_mse_spectral
-    - log_combo_mse_wavelet
-    - log_combo_mse_gdl
-  log_combo_fmse_plus: 
-    - mse
-    - log_combo_fmse_ssim
-    - log_combo_fmse_spectral
-    - log_combo_fmse_wavelet
-    - log_combo_fmse_gdl
-  log_combo_of_three: 
-    - mse
-    - log_combo_mse_ssim_spectral
-    - log_combo_mse_spectral_wavelet
-    - log_combo_mse_wavelet_gdl
-    - log_combo_mse_gdl_spectral
-    - log_combo_mse_ssim_wavelet
-    - log_combo_mse_ssim_gdl
-    - log_combo_nllbg_ssim_spectral
-    - log_combo_mse_nllbg_wavelet
-    - log_combo_fmse_spectral_wavelet
-  # log_combo_nllbg_spectral:
-  #   - log_combo_nllbg_spectral
-  #   - log_combo_nllbg_spectral_wavelet
-  #   - log_combo_nllbg_spectral_gdl
-  #   - log_combo_mse_nllbg_spectral
-  #   - log_combo_nllbg_fmse_spectral
-  log_best_of:
-    - mse
-    - log_asym
-    - log_combo_mse_wavelet
-    - log_combo_mse_ssim
-    - log_combo_nllbg_wavelet
-    - log_combo_mse_ssim_wavelet
-  best_of: 
-    - mse   
-    - combo_mse_nllbg
-    - combo_nllbg_wavelet
-    - combo_mse_nllbg_wavelet
-    - log_combo_mse_wavelet
-    - log_combo_mse_ssim_wavelet
-    - log_asym
-    - nllbg   
-  best_of_extremes:
-    - mse
-    - combo_mse_nllbg_wavelet    
-    - combo_nllbg_spectral_wavelet
-    - combo_nllbg_fmse_spectral
-    - log_combo_nllbg_ssim_spectral
-    - log_combo_nllbg_gdl
-    - log_combo_nllbg_ssim
-    - log_combo_nllbg_wavelet
-    - log_nllbg
-  best_of_visually:
-    - mse
-    - wavelet_complex
-    - combo_mse_spectral
-    - combo_nllbg_spectral
-    - combo_fmse_spectral
-    - combo_fmse_spectral_wavelet
-    - combo_nllbg_fmse_spectral
-  log_best_of_visually:
-    - mse
-    - log_wavelet_complex
-    - log_combo_mse_spectral
-    - log_combo_fmse_spectral
-    - log_combo_fmse_spectral_wavelet
-  best_of_visually_all:
-    - combo_fmse_spectral_wavelet  
-    - combo_fmse_spectral
-    - combo_mse_spectral
-    - combo_nllbg_fmse_spectral
-    - log_combo_fmse_spectral_wavelet
-    - log_combo_fmse_spectral 
-    - log_combo_mse_spectral   
-    - mse
-  log_mae_asym_mse:
-    - mse
-    - mae
-    - log_mae    
-    - asym
-    - log_asym  
+  # combo_nllbg_plus:
+  #   - mse
+  #   - nllbg
+  #   - combo_mse_nllbg
+  #   - combo_nllbg_spectral
+  #   - combo_nllbg_ssim
+  #   - combo_nllbg_gdl
+  #   - combo_nllbg_wavelet
+  # combo_mse_plus: 
+  #   - mse
+  #   - combo_mse_ssim
+  #   - combo_mse_spectral
+  #   - combo_mse_wavelet
+  #   - combo_mse_gdl
+  # combo_fmse_plus: 
+  #   - mse
+  #   - combo_fmse_ssim
+  #   - combo_fmse_spectral
+  #   - combo_fmse_wavelet
+  #   - combo_fmse_gdl
+  # combo_of_three_nllbg: 
+  #   - mse
+  #   - combo_mse_nllbg_spectral
+  #   - combo_nllbg_spectral_wavelet
+  #   - combo_nllbg_ssim_spectral
+  #   - combo_nllbg_spectral_gdl
+  #   - combo_mse_nllbg_gdl
+  #   - combo_mse_nllbg_wavelet
+  #   - combo_nllbg_fmse_spectral
+  # combo_of_three_mse: 
+  #   - mse
+  #   - combo_mse_ssim_spectral
+  #   - combo_mse_spectral_wavelet
+  #   - combo_mse_wavelet_gdl
+  #   - combo_mse_gdl_spectral
+  #   - combo_mse_ssim_wavelet
+  #   - combo_mse_ssim_gdl
+  #   - combo_fmse_spectral_wavelet
+  # combo_of_three_best_of:
+  #   - mse
+  #   - combo_mse_ssim_wavelet
+  #   - combo_mse_ssim_spectral
+  #   - combo_mse_nllbg_wavelet
+  #   - combo_mse_nllbg_gdl
+  #   - combo_mse_nllbg_spectral
+  # log_mae_mse_ssim_nllbg_asym_wavelet:
+  #   - mse
+  #   - log_mse
+  #   - log_mae  
+  #   - log_ssim
+  #   - log_nllbg
+  #   - log_asym
+  #   - log_wavelet_complex
+  # log_combo_nllbg_plus: 
+  #   - mse
+  #   - log_nllbg
+  #   - log_combo_mse_nllbg
+  #   - log_combo_nllbg_ssim
+  #   - log_combo_nllbg_gdl
+  #   - log_combo_nllbg_wavelet
+  # log_combo_mse_plus: 
+  #   - mse
+  #   - log_combo_mse_ssim
+  #   - log_combo_mse_spectral
+  #   - log_combo_mse_wavelet
+  #   - log_combo_mse_gdl
+  # log_combo_fmse_plus: 
+  #   - mse
+  #   - log_combo_fmse_ssim
+  #   - log_combo_fmse_spectral
+  #   - log_combo_fmse_wavelet
+  #   - log_combo_fmse_gdl
+  # log_combo_of_three: 
+  #   - mse
+  #   - log_combo_mse_ssim_spectral
+  #   - log_combo_mse_spectral_wavelet
+  #   - log_combo_mse_wavelet_gdl
+  #   - log_combo_mse_gdl_spectral
+  #   - log_combo_mse_ssim_wavelet
+  #   - log_combo_mse_ssim_gdl
+  #   - log_combo_nllbg_ssim_spectral
+  #   - log_combo_mse_nllbg_wavelet
+  #   - log_combo_fmse_spectral_wavelet
+  # log_best_of:
+  #   - mse
+  #   - log_asym
+  #   - log_combo_mse_wavelet
+  #   - log_combo_mse_ssim
+  #   - log_combo_nllbg_wavelet
+  #   - log_combo_mse_ssim_wavelet
+  # best_of: 
+  #   - mse   
+  #   - combo_mse_nllbg
+  #   - combo_nllbg_wavelet
+  #   - combo_mse_nllbg_wavelet
+  #   - log_combo_mse_wavelet
+  #   - log_combo_mse_ssim_wavelet
+  #   - log_asym
+  #   - nllbg   
+  # best_of_extremes:
+  #   - mse
+  #   - combo_mse_nllbg_wavelet    
+  #   - combo_nllbg_spectral_wavelet
+  #   - combo_nllbg_fmse_spectral
+  #   - log_combo_nllbg_ssim_spectral
+  #   - log_combo_nllbg_gdl
+  #   - log_combo_nllbg_ssim
+  #   - log_combo_nllbg_wavelet
+  #   - log_nllbg
+  # best_of_visually:
+  #   - mse
+  #   - wavelet_complex
+  #   - combo_mse_spectral
+  #   - combo_nllbg_spectral
+  #   - combo_fmse_spectral
+  #   - combo_fmse_spectral_wavelet
+  #   - combo_nllbg_fmse_spectral
+  # log_best_of_visually:
+  #   - mse
+  #   - log_wavelet_complex
+  #   - log_combo_mse_spectral
+  #   - log_combo_fmse_spectral
+  #   - log_combo_fmse_spectral_wavelet
+  # best_of_visually_all:
+  #   - combo_fmse_spectral_wavelet  
+  #   - combo_fmse_spectral
+  #   - combo_mse_spectral
+  #   - combo_nllbg_fmse_spectral
+  #   - log_combo_fmse_spectral_wavelet
+  #   - log_combo_fmse_spectral 
+  #   - log_combo_mse_spectral   
+  #   - mse
+  # # log_mae_asym_mse:
+  # #   - mse
+  # #   - mae
+  # #   - log_mae    
+  # #   - asym
+  # #   - log_asym  
+  # # log_combo_nllbg_spectral:
+  # #   - log_combo_nllbg_spectral
+  # #   - log_combo_nllbg_spectral_wavelet
+  # #   - log_combo_nllbg_spectral_gdl
+  # #   - log_combo_mse_nllbg_spectral
+  # #   - log_combo_nllbg_fmse_spectral  
   # You can define your own comparisons
   # comparison_name:
     # - loss1

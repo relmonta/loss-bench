@@ -26,56 +26,54 @@ comparisons:
     - mae
     - ssim
     - wavelet
-  combo_mae_plus:
-    - mae
-    - combo_mae_ssim
-    - combo_mae_spectral
-    - combo_mae_wavelet
-    - combo_mae_gdl  
-  combo_fmae_plus:
-    - mae
-    - combo_fmae_ssim
-    - combo_fmae_spectral
-    - combo_fmae_wavelet
-    - combo_fmae_gdl
-  combo_of_three:
-    - mae
-    - combo_mae_ssim_spectral
-    - combo_mae_spectral_wavelet
-    - combo_fmae_spectral_wavelet    
-    - combo_mae_wavelet_gdl
-    - combo_mae_gdl_spectral
-    - combo_mae_ssim_wavelet
-    - combo_mae_ssim_gdl                                   
-  best_of_extremes: 
-    - combo_fmae_spectral
-    - combo_fmae_wavelet  
-    - combo_fmae_spectral_wavelet
-  #  - wavelet_complex
-    - combo_mae_spectral      
-  #  - combo_mae_wavelet 
-    - combo_mae_ssim
-    - mae
-  best_of: 
-    - mae
-    - combo_mae_ssim_spectral
-    - combo_mae_ssim_wavelet
-    - combo_mae_ssim              
-  best_visually: 
-    - combo_fmae_spectral
-    - combo_mae_spectral
-    - combo_mae_ssim_spectral
-    - combo_mae_spectral_wavelet
-    - combo_fmae_spectral_wavelet
-    - combo_mae_gdl_spectral
-    - combo_mae_ssim
-    - mae
-  best_visually_reduced:
-    - combo_fmae_spectral
-    - combo_mae_spectral
-    - combo_fmae_spectral_wavelet
-    - combo_mae_ssim
-    - mae
+  # combo_mae_plus:
+  #   - mae
+  #   - combo_mae_ssim
+  #   - combo_mae_spectral
+  #   - combo_mae_wavelet
+  #   - combo_mae_gdl  
+  # combo_fmae_plus:
+  #   - mae
+  #   - combo_fmae_ssim
+  #   - combo_fmae_spectral
+  #   - combo_fmae_wavelet
+  #   - combo_fmae_gdl
+  # combo_of_three:
+  #   - mae
+  #   - combo_mae_ssim_spectral
+  #   - combo_mae_spectral_wavelet
+  #   - combo_fmae_spectral_wavelet    
+  #   - combo_mae_wavelet_gdl
+  #   - combo_mae_gdl_spectral
+  #   - combo_mae_ssim_wavelet
+  #   - combo_mae_ssim_gdl                                   
+  # best_of_extremes: 
+  #   - combo_fmae_spectral
+  #   - combo_fmae_wavelet  
+  #   - combo_fmae_spectral_wavelet
+  #   - combo_mae_spectral      
+  #   - combo_mae_ssim
+  #   - mae
+  # best_of: 
+  #   - mae
+  #   - combo_mae_ssim_spectral
+  #   - combo_mae_ssim_wavelet
+  #   - combo_mae_ssim              
+  # best_visually: 
+  #   - combo_fmae_spectral
+  #   - combo_mae_spectral
+  #   - combo_mae_ssim_spectral
+  #   - combo_mae_spectral_wavelet
+  #   - combo_fmae_spectral_wavelet
+  #   - combo_mae_gdl_spectral
+  #   - combo_mae_ssim
+  #   - mae
+  # best_visually_reduced:
+  #   - combo_fmae_spectral
+  #   - combo_mae_spectral
+  #   - combo_fmae_spectral_wavelet
+  #   - combo_mae_ssim
+  #   - mae
   # Name the comparison and set the losses to compare
   # comparison_name:
     # - loss1
