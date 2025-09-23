@@ -71,6 +71,7 @@ class SingleVariableDataset(Dataset):
         self.apply_log_flag = apply_log
         self.variable = variable
         self.require_gamma_params = require_gamma_params
+        self.era5_info_path = 'data/era5_variables.yaml'
 
         # Training period details (usefull for validation and test datasets)
         self.train = train_start_date == start_date if train_start_date else True
@@ -119,7 +120,7 @@ class SingleVariableDataset(Dataset):
     def _load_era5_data_(self) -> dict:
         """Load ERA5 data for the specified variables."""
 
-        with open(os.path.join(os.path.expanduser("~"), 'projects/downscaling_total/data/era5_variables.yaml')) as f:
+        with open(self.era5_info_path) as f:
             era5_vars = yaml.safe_load(f)
         var_name = self.variable
         self.data = {}
