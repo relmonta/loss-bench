@@ -565,8 +565,6 @@ class NLLBernoulliGammaLoss(nn.Module):
             - (alpha - 1) * torch.log(torch.clamp(y, min=self.eps))
             + y / beta
         )
-        # print("loss_pos:", loss_pos.detach().min().item(),
-        #       loss_pos.detach().max().item())
 
         occurence_mask = (y > self.eps).float()
         loss = (1 - occurence_mask) * loss_zero + occurence_mask * loss_pos
