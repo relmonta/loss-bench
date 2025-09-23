@@ -34,8 +34,7 @@ def get_netcdf(path, var_name, year):
                 requests.urlretrieve(zenodo_url, local_path)
             except Exception as e:
                 raise FileNotFoundError(f"File {local_path} not found and download failed: {e}")
-    else:
-        ds = xr.open_dataset(local_path)
+    ds = xr.open_dataset(local_path)
 
     # Adjust longitude coordinates to [-180, 180] if needed
     lon = ds.longitude.values
