@@ -12,7 +12,7 @@ from datetime import datetime
 from models.vision_transformer import VisionTransformer
 from models.losses import get_criterion
 from data.data_module import DatasetSetup
-from evaluation.utils import inference_mode, COLORS_CB_FRIENDLY, loss_display_name
+from evaluation.utils import inference_mode, COLORS_CB_FRIENDLY, loss_display_name, download_weights_from_zenodo
 import pickle
 from training.utils import inference_step
 
@@ -154,9 +154,9 @@ class Evaluator:
             model, val_dataloader, train_dataset)
 
         common_data = {
-            "longitudes": train_dataset.longitudes,
-            "latitudes": train_dataset.latitudes,
-            "extent": train_dataset.extent,
+            "longitudes": val_dataset.longitudes,
+            "latitudes": val_dataset.latitudes,
+            "extent": val_dataset.extent,
             "dates": dates
         }
         if self.var_name == "pr":
