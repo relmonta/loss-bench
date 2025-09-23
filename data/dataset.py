@@ -22,13 +22,18 @@ def get_netcdf(path, var_name, year):
         print(f"File {local_path} not found. Try downloading from zenodo...")
         # zenodo url
         zenodo_url = f"https://zenodo.org/records/17098120/files/{var_name}_1d_{year}_ERA5.nc"
-        # try to download the file
+        # try to download the file using wget
+        os.makedirs(os.path.dirname(local_path), exist_ok=True)
         try:
-            os.makedirs(os.path.dirname(local_path), exist_ok=True)
-            import urllib.request as requests
-            requests.urlretrieve(zenodo_url, local_path)
+            os.system(f"wget -O {local_path} {zenodo_url}")
         except Exception as e:
-            raise FileNotFoundError(f"File {local_path} not found and download failed: {e}")
+            print(f"Error downloading {zenodo_url} using wget: {e}")
+            print("Trying using urllib ... If this fails or take too long, please download the file manually from zenodo.") 
+            try:
+                import urllib.request as requests
+                requests.urlretrieve(zenodo_url, local_path)
+            except Exception as e:
+                raise FileNotFoundError(f"File {local_path} not found and download failed: {e}")
     else:
         ds = xr.open_dataset(local_path)
 

@@ -49,11 +49,20 @@ def download_weights_from_zenodo(var_name, file_name, save_path):
         raise ValueError(f"Unknown variable name: {var_name}")
     # Zenodo url
     zenodo_url = f"https://zenodo.org/records/{id}/files/{file_name}"
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
     try:
-        os.makedirs(os.path.dirname(save_path), exist_ok=True)
-        import urllib.request as requests
-        requests.urlretrieve(zenodo_url, save_path)
-        print(f"Downloaded weights from {zenodo_url} to {save_path}")
+        # try using wget
+        try:
+            os.system(f"wget -O {save_path} {zenodo_url}")
+        except Exception as e:
+            print(f"Error downloading {zenodo_url} using wget: {e}")
+            print("Trying using urllib ... If this fails or take too long, please download the file manually from zenodo.")
+            try:
+                import urllib.request as requests
+                requests.urlretrieve(zenodo_url, save_path)
+                print(f"Downloaded weights from {zenodo_url} to {save_path}")
+            except Exception as e:
+                raise FileNotFoundError(f"File {save_path} not found and download failed: {e}")
     except Exception as e:
         raise FileNotFoundError(f"Failed to download weights from {zenodo_url}: {e}")
 
