@@ -109,10 +109,11 @@ class SingleVariableDataset(Dataset):
         del self.normalization_stats
         gc.collect()
         # select extent in lat and lon
-        self.latitudes = self.latitudes[(self.latitudes >= extent[2]) & (
-            self.latitudes <= extent[3])][:-1]
-        self.longitudes = self.longitudes[(self.longitudes >= extent[0]) & (
-            self.longitudes <= extent[1])][:-1]
+        if hasattr(self, 'latitudes') and hasattr(self, 'longitudes'):
+            self.latitudes = self.latitudes[(self.latitudes >= extent[2]) & (
+                self.latitudes <= extent[3])][:-1]
+            self.longitudes = self.longitudes[(self.longitudes >= extent[0]) & (
+                self.longitudes <= extent[1])][:-1]
 
     def __len__(self):
         return len(self.date_index)
