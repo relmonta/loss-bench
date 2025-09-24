@@ -73,6 +73,7 @@ def plot_temporal_evolution(path, y_preds, y_true, exp_list, exp_names,
     plt.tight_layout()
     plt.savefig(os.path.join(
         path, f"temporal_evolution.{figformat}"), bbox_inches="tight", pad_inches=0, dpi=300)
+    plt.show()
     plt.close()
     print(
         f"Temporal evolution plot saved to temporal_evolution.{figformat}")
@@ -120,6 +121,7 @@ def plot_rx1day(path, df, rx1day_true, exp_names, color_dict, figformat='png'):
     plt.tight_layout()
     plt.savefig(os.path.join(path, f"rx1day_comparison.{figformat}"),
                 bbox_inches="tight", pad_inches=0, dpi=300)
+    plt.show()
     plt.close()
 
     print(
@@ -182,6 +184,7 @@ def plot_distributions_max(path, y_preds, y_true, exp_list, exp_names, colors_di
     plt.tight_layout()
     plt.savefig(os.path.join(
         path, f"distributions_max.{figformat}"), bbox_inches="tight", pad_inches=0, dpi=300)
+    plt.show()
     plt.close()
     print(f"'distributions_max.{figformat}' saved")
     return emd_scores
@@ -245,6 +248,7 @@ def plot_violin_max(path, y_preds, y_true, exp_list, exp_names, color_dict, figf
     plt.tight_layout()
     plt.savefig(os.path.join(path, f"violin_plot_max.{figformat}"),
                 bbox_inches="tight", pad_inches=0, dpi=300)
+    plt.show()
     plt.close()
 
     print(f"'violin_plot_max.{figformat}' saved")
@@ -319,6 +323,7 @@ def plot_div_plot(path, y_preds, y_true, exp_list, exp_names, estimation_thresho
     plt.tight_layout()
     plt.savefig(os.path.join(
         path, f"misestimation_{estimation_threshold}.{figformat}"), bbox_inches="tight", pad_inches=0, dpi=300)
+    plt.show()
     plt.close()
     print(
         f"Bias frequency bar plot saved to 'misestimation_{estimation_threshold}.{figformat}'")
