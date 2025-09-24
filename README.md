@@ -1,6 +1,8 @@
 # Training loss benchmarking for statistical downscaling
 
-Benchmarking training losses for deep learning-based statistical downscaling of climate data.
+Benchmarking training losses for deep learning-based statistical downscaling.
+
+[![DOI](https://zenodo.org/badge/733070317.svg)](https://zenodo.org/doi/10.5281/zenodo.17185802)
 
 ## Overview
 
