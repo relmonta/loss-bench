@@ -23,6 +23,7 @@ COLORS_CB_FRIENDLY = [
     "#e377c2",             # pink
 ]
 
+
 @contextmanager
 def inference_mode(desc=""):
     start_time = time.time()
@@ -30,6 +31,7 @@ def inference_mode(desc=""):
         yield
     elapsed_time = time.time() - start_time
     print(f"[{desc}] Completed in {elapsed_time:.3f} seconds.")
+
 
 def download_weights_from_zenodo(var_name, file_name, save_path):
     """
@@ -62,9 +64,12 @@ def download_weights_from_zenodo(var_name, file_name, save_path):
                 requests.urlretrieve(zenodo_url, save_path)
                 print(f"Downloaded weights from {zenodo_url} to {save_path}")
             except Exception as e:
-                raise FileNotFoundError(f"File {save_path} not found and download failed: {e}")
+                raise FileNotFoundError(
+                    f"File {save_path} not found and download failed: {e}")
     except Exception as e:
-        raise FileNotFoundError(f"Failed to download weights from {zenodo_url}: {e}")
+        raise FileNotFoundError(
+            f"Failed to download weights from {zenodo_url}: {e}")
+
 
 def loss_display_name(config, loss, weights=True):
     """
@@ -180,6 +185,7 @@ def plot_power_spectra(path, y_preds, y_true, exp_list, exp_names,
     plt.tight_layout()
     outpath = os.path.join(path, f"average_power_spectra.{figformat}")
     plt.savefig(outpath, bbox_inches="tight", dpi=300)
+    plt.show()
     plt.close(fig)
     print(f"Average power spectra plot saved to {os.path.basename(outpath)}")
     # save relative_high_freq_delta to a CSV file
@@ -281,6 +287,7 @@ def plot_event_zoom(path, y_preds, y_true, exp_list, exp_names,
         out_path = os.path.join(
             path, f"event_zoom_{tmp}{dates[day_idx].strftime('%Y-%m-%d')}.{figformat}")
         plt.savefig(out_path, bbox_inches="tight", pad_inches=0.1, dpi=300)
+        plt.show()
         plt.close()
 
         print(
@@ -355,6 +362,7 @@ def plot_event_full(path, y_preds, y_true, exp_list, exp_names, common_data, var
         out_path = os.path.join(
             path, f"event_full_{tmp}{dates[day_idx].strftime('%Y-%m-%d')}.{figformat}")
         plt.savefig(out_path, bbox_inches="tight", pad_inches=0.1, dpi=300)
+        plt.show()
         plt.close()
         print(
             f"{title} map comparison saved to {os.path.basename(out_path)}")
@@ -421,6 +429,7 @@ def plot_qq(path, y_preds, y_true, exp_list, exp_names, colors_dict, threshold=N
         plt.tight_layout()
         plt.savefig(os.path.join(path, filename),
                     bbox_inches="tight", pad_inches=0, dpi=300)
+        plt.show()
         plt.close()
         print(f"Q-Q plot saved to {filename}")
 
@@ -484,6 +493,7 @@ def plot_distributions(path, y_preds, y_true, exp_list, exp_names, results, colo
     plt.tight_layout()
     plt.savefig(os.path.join(path, f"distributions.{figformat}"),
                 bbox_inches="tight", pad_inches=0, dpi=300)
+    plt.show()
     plt.close()
 
     print(f"'distributions.{figformat}' saved")

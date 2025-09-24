@@ -95,6 +95,7 @@ def plot_temporal_evolution(path, y_preds, y_true, exp_list, exp_names,
     plt.tight_layout()
     plt.savefig(os.path.join(
         path, f"temporal_evolution.{figformat}"), bbox_inches="tight", pad_inches=0, dpi=300)
+    plt.show()
     plt.close()
     print(
         f"Temporal evolution plot saved to 'temporal_evolution.{figformat}'")
@@ -162,6 +163,7 @@ def plot_distributions_max(path, y_preds, y_true, exp_list, exp_names, colors_di
     plt.tight_layout()
     plt.savefig(os.path.join(
         path, f"distributions_max_uwind.{figformat}"), bbox_inches="tight", pad_inches=0, dpi=300)
+    plt.show()
     plt.close()
     print(f"'distributions_max_uwind.{figformat}' saved")
     return emd_scores
@@ -278,6 +280,7 @@ def plot_div_plot(path, y_preds, y_true, exp_list, exp_names, estimation_thresho
         out_file = os.path.join(
             path, f"misestimation_{estimation_threshold}.{figformat}")
         plt.savefig(out_file, bbox_inches="tight", pad_inches=0, dpi=300)
+        plt.show()
         plt.close()
         print(
             f"Bias frequency plot saved to {os.path.basename(out_file)}")
