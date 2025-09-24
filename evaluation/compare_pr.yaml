@@ -1,8 +1,8 @@
 variable: pr
 evaluator_kwargs:
   # Evaluation period 
-  start_date: "2018-01-01"
-  end_date: "2021-12-31"
+  start_date: "2020-01-01"
+  end_date: "2020-12-31"
   # Period to use in temporal evolution plot
   start_date_plot: "2020-11-01"
   end_date_plot: "2020-12-31"
