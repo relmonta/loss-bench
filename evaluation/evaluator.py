@@ -136,7 +136,8 @@ class Evaluator:
                                  exp_config["name"], f"weights-{exp}.ckpt")
         if not os.path.exists(ckpt_file):
             # Download from zenodo
-            download_weights_from_zenodo(self.var_name, file_name=f"weights-{exp}.ckpt", save_path=ckpt_file)
+            download_weights_from_zenodo(
+                self.var_name, file_name=f"weights-{exp}.ckpt", save_path=ckpt_file)
 
         state_dict = torch.load(ckpt_file, weights_only=True, map_location=self.device)[
             'state_dict']
@@ -314,4 +315,5 @@ class Evaluator:
 
         plt.savefig(os.path.join(
             self.plot_path, f'val_radar.pdf'), bbox_inches='tight')
+        plt.show()
         plt.close()
