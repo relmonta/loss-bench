@@ -25,9 +25,6 @@ data:
   val:
     start_date: "2018-01-01"
     end_date: "2021-12-31"
-  test:
-    start_date: "2022-01-01"
-    end_date: "2023-12-31"
   variable: "pr"
   # Update if your data is in a different location
   # This path should contain the ERA5 data files in NetCDF format for each year.
