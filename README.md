@@ -1,6 +1,6 @@
 # Training loss benchmarking for statistical downscaling
 
-Benchmarking training losses for deep learning-based statistical downscaling.
+This repository contains the source code for the paper "[Training loss matters: exploring new fit-for-purpose loss combinations for statistical downscaling](https://doi.org/10.22541/essoar.175977614.45331660/v1)" by [Rachid El Montassir](https://www.linkedin.com/in/rachid-elmontassir/),et al.
 
 [![DOI](https://zenodo.org/badge/733070317.svg)](https://zenodo.org/doi/10.5281/zenodo.17185802)
 
@@ -92,3 +92,21 @@ Arguments:
 * `-var_name` : variable name (`pr` or `uas`)
 * `--criterion "<loss_name>"` : if specified, ignores loss in config and uses this loss instead
 * `--resume` : resume from a checkpoint if available (only best model is stored)
+
+## Citation
+To cite this work, please use the following bibtex entry:
+
+```
+@misc{ElMontassir2025_lossmatters,
+  author       = {Rachid El Montassir and Luciano Drozda and Olivier Pannekoucke and others},
+  title        = {Training loss matters: exploring new fit-for-purpose loss combinations for statistical downscaling},
+  year         = {2025},
+  howpublished = {ESS Open Archive preprint},
+  note         = {Version 1, October 06, 2025},
+  doi          = {10.22541/essoar.175977614.45331660/v1},
+  url          = {https://doi.org/10.22541/essoar.175977614.45331660/v1}
+}
+```
+
+## License
+This project is licensed under the CeCILL-B license - see the [LICENSE](LICENSE.md) file for details.
