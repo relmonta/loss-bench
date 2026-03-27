@@ -10,30 +10,31 @@ from torch.nn import functional as F
 from tqdm import tqdm
 import pickle
 import fcntl
-import matplotlib.pyplot as plt
 from typing import List
-import warnings
 import gc
+
 
 def get_netcdf(path, var_name, year):
     """Loads a single NetCDF file from the local directory or the archive."""
-    local_path = os.path.join(path, f"{var_name}_1d/{var_name}_1d_{year}_ERA5.nc")
+    local_path = os.path.join(
+        path, f"{var_name}_1d/{var_name}_1d_{year}_ERA5.nc")
     if not os.path.exists(local_path):
         print(f"File {local_path} not found. Try downloading from zenodo...")
         # zenodo url
-        zenodo_url = f"https://zenodo.org/records/17098120/files/{var_name}_1d_{year}_ERA5.nc"
+        zenodo_url = f"https://zenodo.org/records/19263943/files/{var_name}_1d_{year}_ERA5.nc"
         # try to download the file using wget
         os.makedirs(os.path.dirname(local_path), exist_ok=True)
         try:
             os.system(f"wget -O {local_path} {zenodo_url}")
         except Exception as e:
             print(f"Error downloading {zenodo_url} using wget: {e}")
-            print("Trying using urllib ... If this fails or take too long, please download the file manually from zenodo.") 
+            print("Trying using urllib ... If this fails or take too long, please download the file manually from zenodo.")
             try:
                 import urllib.request as requests
                 requests.urlretrieve(zenodo_url, local_path)
             except Exception as e:
-                raise FileNotFoundError(f"File {local_path} not found and download failed: {e}")
+                raise FileNotFoundError(
+                    f"File {local_path} not found and download failed: {e}")
     ds = xr.open_dataset(local_path)
 
     # Adjust longitude coordinates to [-180, 180] if needed
@@ -124,7 +125,6 @@ class SingleVariableDataset(Dataset):
 
     def _load_era5_data_(self) -> dict:
         """Load ERA5 data for the specified variables."""
-
         with open(self.era5_info_path) as f:
             era5_vars = yaml.safe_load(f)
         var_name = self.variable
@@ -132,7 +132,7 @@ class SingleVariableDataset(Dataset):
         self.mean_x, self.std_x = 0, 0
         self.var_details = {}
 
-        if not self.inference: # self.inference concerns only the training dataset
+        if not self.inference:  # self.inference concerns only the training dataset
             print(
                 f"Loading {self.variable.upper()} data from {self.start_date.year} to {self.end_date.year}...")
             for year in tqdm(range(self.start_date.year, self.end_date.year + 1), desc="Loading data", colour="blue"):
@@ -167,13 +167,9 @@ class SingleVariableDataset(Dataset):
         # Variable details
         self.var_details['name'] = var_name
         self.var_details['log'] = self.apply_log_flag
-        self.var_details['title'] = era5_vars[var_name+'_1d']['short']
-        self.var_details['explanation'] = era5_vars[var_name+'_1d']['long']
-        self.var_details['unit'] = era5_vars[var_name+'_1d']['unit']
-
-        # Min and max values
-        self.vmin = None
-        self.vmax = None
+        self.var_details['title'] = era5_vars[var_name]['short']
+        self.var_details['explanation'] = era5_vars[var_name]['long']
+        self.var_details['unit'] = era5_vars[var_name]['unit']
 
         # Use the same mean and std for target variables
         self.mean_y, self.std_y = self.mean_x, self.std_x
@@ -262,7 +258,7 @@ class SingleVariableDataset(Dataset):
         assert len(x.shape) == 4, f"Expected 4D tensor, given {len(x.shape)}D"
         if self.normalize:
             x[:, 0] = x[:, 0] * self.std_x + self.mean_x
-        # Apply the inverse of log(x + 1) to get rhe the physical space
+        # Apply the inverse of log(x + 1) to get to the physical space
         x[:, 0] = self._apply_exp_(x[:, 0])
         return x
 
@@ -293,16 +289,10 @@ class SingleVariableDataset(Dataset):
         # Create longitude and latitude grids efficiently
         self.lon_grid = torch.linspace(
             self.extent[0], self.extent[1], w).repeat(h, 1).unsqueeze(0)
-        self.lat_grid = torch.linspace(self.extent[2], self.extent[3], h).unsqueeze(
-            1).repeat(1, w).unsqueeze(0)
+        self.lat_grid = torch.linspace(
+            self.extent[2], self.extent[3], h).unsqueeze(1).repeat(1, w).unsqueeze(0)
         self.static_vars = torch.cat([self.lat_grid, self.lon_grid], dim=0)
         self.done = True
-
-    def upscaling(self, y):
-        x = F.avg_pool2d(y, self.downscaling_factor)
-        x = F.interpolate(
-            x, size=y.shape[-2:], mode=self.interpolation_mode)
-        return x
 
     def __getitem__(self, idx, date=None):
         if date is not None:
@@ -324,7 +314,8 @@ class SingleVariableDataset(Dataset):
         # Get low resolution data
         y = torch.tensor(y).unsqueeze(0).unsqueeze(0).float()
         orig_y = y.squeeze(0).clone()
-        x = self.upscaling(y)
+        x = F.avg_pool2d(y, self.downscaling_factor)
+        x = F.interpolate(x, size=y.shape[-2:], mode=self.interpolation_mode)
 
         # Normalisation
         if self.normalize:
@@ -333,13 +324,11 @@ class SingleVariableDataset(Dataset):
 
         if not self.done:  # Compute spatial coordinate grids
             self._precompute_static_variables_(*y.shape[-2:])
-
         time_features = torch.tensor([pd.to_datetime(date).year,
                                       pd.to_datetime(date).month,
                                       pd.to_datetime(date).day,
                                       pd.to_datetime(date).hour]).unsqueeze(0)
-        x = x.squeeze(0)
-        y = y.squeeze(0)
+        x, y = x.squeeze(0), y.squeeze(0)
         if self.standardize:
             # Standardize input and output data
             mean_x = x.mean(dim=(-2, -1), keepdim=True)

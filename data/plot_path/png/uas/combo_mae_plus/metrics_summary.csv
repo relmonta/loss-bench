@@ -1,6 +1,6 @@
-Model,mae,mse,ssim,gdl,spectral,wavelet,wavelet_complex,wasserstein
-mae,0.209,0.260,0.350,0.269,0.346,0.416,0.274,0.021
-combo_mae_ssim,0.210,0.251,0.316,0.257,0.343,0.569,0.320,0.025
-combo_mae_spectral,0.218,0.274,0.371,0.301,0.281,0.393,0.280,0.011
-combo_mae_wavelet,0.217,0.269,0.365,0.284,0.346,0.411,0.264,0.016
-combo_mae_gdl,0.214,0.270,0.352,0.269,0.352,0.479,0.309,0.027
+Model,mae,mse,dssim,gdl,spectral,wavelet,wavelet_complex,wasserstein
+mae,0.207,0.128,0.033,0.132,0.137,0.415,0.136,0.019
+combo_mae_dssim,0.209,0.131,0.033,0.132,0.139,0.461,0.143,0.018
+combo_mae_spectral,0.214,0.135,0.035,0.143,0.114,0.437,0.142,0.017
+combo_mae_wavelet,0.209,0.128,0.034,0.135,0.131,0.368,0.124,0.015
+combo_mae_gdl,0.211,0.133,0.034,0.132,0.140,0.453,0.149,0.022

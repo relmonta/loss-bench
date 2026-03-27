@@ -1,0 +1,6 @@
+model,rel_hp_delta
+mse,50.94
+mae,48.06
+dssim,59.77
+wavelet,46.14
+wavelet_complex,51.85

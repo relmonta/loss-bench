@@ -131,11 +131,11 @@ if __name__ == '__main__':
     # Dataset setup
     # -----------------------------
     if "nllbg" in criterion_name.lower():
-        exp_config['data']['kwargs_train_val']['normalize'] = False
-        exp_config['data']['kwargs_train_val']['standardize'] = False
+        exp_config['data']['common_kwargs']['normalize'] = False
+        exp_config['data']['common_kwargs']['standardize'] = False
 
     if args.apply_log is not None:
-        exp_config['data']['kwargs_train_val']['apply_log'] = args.apply_log.lower(
+        exp_config['data']['common_kwargs']['apply_log'] = args.apply_log.lower(
         ) == "true"
 
     # -----------------------------
@@ -149,19 +149,15 @@ if __name__ == '__main__':
     loss_config = load_yaml(exp_config['training']['loss_config_path'])
     metrics = {}
     for metric_name in exp_config['training']['metrics']:
-        metric_args = loss_config['losses'].get(metric_name.lower(), {}) or {}
+        metric_args = loss_config['losses'][metric_name.lower()]
         metrics[metric_name] = get_criterion(metric_name, **metric_args)
 
-    optimizer = optim.Adam(model.parameters(), lr=learning_rate,
-                           weight_decay=exp_config['training']['weight_decay'])
-
     # Get loss args from config
-    loss_args = loss_config['losses'].get(criterion_name.lower(), {}) or {}
+    loss_args = loss_config['losses'][criterion_name.lower()]
     print("=====================================================================")
     if criterion_name.lower().startswith('combo'):
         # For combination losses, gather individual loss args
-        wargs_dict = {loss: loss_config['losses'].get(loss, {}) or {}
-                      for loss in loss_config['losses'][criterion_name]["losses"]}
+        wargs_dict = {loss: loss_config['losses'][loss] for loss in loss_config['losses'][criterion_name]["losses"]}
         loss_args['losses'] = wargs_dict
         print(f"Losses args: {wargs_dict}")
         criterion = get_criterion("combination", **loss_args)
@@ -209,6 +205,9 @@ if __name__ == '__main__':
         # Get asym params from train dataset
         set_asym_params(criterion, train_dataset)
 
+    params_to_opt = list(model.parameters()) + list(criterion.parameters())
+    optimizer = optim.Adam(params_to_opt, lr=learning_rate,
+                           weight_decay=exp_config['training']['weight_decay'])
     downscaling_model = DownscalingModel(
         model, criterion, optimizer, learning_rate, metrics=metrics
     )

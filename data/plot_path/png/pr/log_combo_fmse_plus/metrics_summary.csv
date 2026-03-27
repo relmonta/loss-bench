@@ -1,6 +1,6 @@
-Model,mae,mse,ssim,gdl,spectral,wavelet,wavelet_complex,wasserstein,rx1day
-mse,0.303,0.393,0.281,0.260,0.333,0.351,0.264,0.066,79.133
-log_combo_fmse_ssim,0.284,0.453,0.241,0.257,0.310,0.568,0.379,0.031,135.826
-log_combo_fmse_spectral,0.345,0.634,0.350,0.367,0.272,0.438,0.436,0.059,119.138
-log_combo_fmse_wavelet,0.292,0.452,0.282,0.281,0.305,0.357,0.315,0.080,115.327
-log_combo_fmse_gdl,0.339,0.723,0.340,0.283,0.398,0.554,0.557,0.110,74.447
+Model,mae,mse,dssim,gdl,spectral,wavelet,wavelet_complex,wasserstein,rx1day
+mse,0.282,0.659,0.007,0.799,0.412,0.558,0.216,0.056,93.359
+log_combo_fmse_dssim,0.280,0.951,0.007,0.834,0.444,0.786,0.364,0.061,106.748
+log_combo_fmse_spectral,0.325,1.090,0.009,1.215,0.333,0.731,0.337,0.053,166.698
+log_combo_fmse_wavelet,0.274,0.800,0.007,0.852,0.396,0.663,0.285,0.069,117.566
+log_combo_fmse_gdl,0.287,1.020,0.008,0.840,0.461,0.811,0.388,0.080,108.155

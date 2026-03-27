@@ -1,7 +1,7 @@
 model,rel_hp_delta
-mse,92.00
-log_asym,85.92
-log_combo_mse_wavelet,85.74
-log_combo_mse_ssim,74.32
-log_combo_nllbg_wavelet,54.75
-log_combo_mse_ssim_wavelet,78.68
+mse,89.99
+log_asym,86.02
+log_combo_mse_wavelet,86.85
+log_combo_mse_dssim,85.90
+log_combo_nllbg_wavelet,53.67
+log_combo_mse_dssim_wavelet,84.58

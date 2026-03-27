@@ -51,10 +51,10 @@ class DownscalingModel(pl.LightningModule):
             loss = self.criterion(outputs, high_res.clone())
         # Log NLL BG loss
 
-        if self.loss_has_nllbg:
-            self._log_losses_(
-                outputs, high_res, "train", prog_bar=True, on_step=True,
-                criterion=self.criterion, criterion_name="loss")
+        #if self.loss_has_nllbg:
+        self._log_losses_(
+            outputs, high_res, "train", prog_bar=True, on_step=True,
+            criterion=self.criterion, criterion_name="loss")
 
         if isinstance(outputs, list):  # Bernoulli-Gamma output
             # Compute expected value without tracking gradients
@@ -77,12 +77,12 @@ class DownscalingModel(pl.LightningModule):
                 high_res)
             outputs = train_ds.denormalize_y(
                 outputs)
-            # Do not log  NLL BG loss as the ouputs are not
-            # pi, alpha, beta anymore, but the expected value.
-            if not self.loss_has_nllbg:
-                self._log_losses_(
-                    outputs, high_res, "train", prog_bar=True, on_step=True,
-                    criterion=self.criterion, criterion_name="loss")
+            # # Do not log  NLL BG loss as the ouputs are not
+            # # pi, alpha, beta anymore, but the expected value.
+            # if not self.loss_has_nllbg:
+            #     self._log_losses_(
+            #         outputs, high_res, "train", prog_bar=True, on_step=True,
+            #         criterion=self.criterion, criterion_name="loss")
             for metric_name, metric_fn in self.metrics.items():
                 self._log_losses_(outputs, high_res, "train",
                                   criterion=metric_fn, criterion_name=metric_name)
@@ -119,10 +119,10 @@ class DownscalingModel(pl.LightningModule):
         loss = self.criterion(outputs, high_res)
 
         # Log  NLL BG loss
-        if self.loss_has_nllbg:
-            self._log_losses_(
-                outputs, high_res, "val", prog_bar=True, on_step=True,
-                criterion=self.criterion, criterion_name="loss")
+        #if self.loss_has_nllbg:
+        self._log_losses_(
+            outputs, high_res, "val", prog_bar=True, on_step=True,
+            criterion=self.criterion, criterion_name="loss")
 
         if isinstance(outputs, list):  # Bernoulli-Gamma output
             # Compute expected value without tracking gradients
@@ -145,10 +145,10 @@ class DownscalingModel(pl.LightningModule):
                 outputs)
             # Do not log  NLL BG loss as the ouputs are not
             # pi, alpha, beta anymore, but the expected value.
-            if not self.loss_has_nllbg:
-                self._log_losses_(
-                    outputs, high_res, "val", prog_bar=True, on_step=True,
-                    criterion=self.criterion, criterion_name="loss")
+            # if not self.loss_has_nllbg:
+            #     self._log_losses_(
+            #         outputs, high_res, "val", prog_bar=True, on_step=True,
+            #         criterion=self.criterion, criterion_name="loss")
 
             for metric_name, metric_fn in self.metrics.items():
                 self._log_losses_(outputs, high_res, "val",

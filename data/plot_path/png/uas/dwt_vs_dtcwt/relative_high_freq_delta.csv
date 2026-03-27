@@ -1,0 +1,4 @@
+model,rel_hp_delta
+mae,48.06
+wavelet,46.14
+wavelet_complex,51.85

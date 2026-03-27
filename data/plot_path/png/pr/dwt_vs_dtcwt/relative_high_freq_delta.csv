@@ -1,6 +1,4 @@
 model,rel_hp_delta
-mse,92.00
-wavelet,90.06
-wavelet_complex,89.24
-log_wavelet,85.59
-log_wavelet_complex,84.01
+mse,89.99
+wavelet,88.77
+wavelet_complex,86.04

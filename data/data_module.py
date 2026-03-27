@@ -11,17 +11,21 @@ class DatasetSetup:
         self.require_gamma_params = require_gamma_params
 
     def setup(self):
-        self.train_ds = SingleVariableDataset(
+        pass
+
+    def get_train_ds(self):
+        return SingleVariableDataset(
             self.config['data_path'],
             self.config['variable'],
             self.config['train']['start_date'],
             self.config['train']['end_date'],
             require_gamma_params=self.require_gamma_params,
             inference=self.inference,
-            **self.config['kwargs_train_val']
+            **self.config['common_kwargs']
         )
 
-        self.val_ds = SingleVariableDataset(
+    def get_val_ds(self):
+        return SingleVariableDataset(
             self.config['data_path'],
             self.config['variable'],
             self.config['val']['start_date'],
@@ -29,11 +33,17 @@ class DatasetSetup:
             train_start_date=self.config['train']['start_date'],
             train_end_date=self.config['train']['end_date'],
             require_gamma_params=self.require_gamma_params,
-            **self.config['kwargs_train_val']
+            **self.config['common_kwargs']
         )
 
-    def get_train_ds(self):
-        return self.train_ds
-
-    def get_val_ds(self):
-        return self.val_ds
+    def get_test_ds(self):
+        return SingleVariableDataset(
+            self.config['data_path'],
+            self.config['variable'],
+            self.config['test']['start_date'],
+            self.config['test']['end_date'],
+            train_start_date=self.config['train']['start_date'],
+            train_end_date=self.config['train']['end_date'],
+            require_gamma_params=self.require_gamma_params,
+            **self.config['common_kwargs']
+        )

@@ -1,0 +1,7 @@
+model,rel_hp_delta
+mse,89.99
+log_combo_fmse_spectral,35.71
+log_combo_fmse_spectral_19,36.41
+log_combo_fmse_spectral_37,34.17
+log_combo_fmse_spectral_73,40.23
+log_combo_fmse_spectral_91,42.31

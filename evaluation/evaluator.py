@@ -114,23 +114,24 @@ class Evaluator:
         exp_config = self._load_yaml_config(self.config_path)
         # Dataset configuration tweaks per experiment
         if "nllbg" in exp:
-            exp_config['data']['kwargs_train_val']['normalize'] = False
-            exp_config['data']['kwargs_train_val']['standardize'] = False
+            exp_config['data']['common_kwargs']['normalize'] = False
+            exp_config['data']['common_kwargs']['standardize'] = False
 
-        exp_config['data']['kwargs_train_val']['apply_log'] = exp.startswith(
+        exp_config['data']['common_kwargs']['apply_log'] = exp.startswith(
             "log_")
 
         # Limit the time range to the specified period
-        exp_config['data']['val']['start_date'] = self.start_date
-        exp_config['data']['val']['end_date'] = self.end_date
+        exp_config['data']['test']['start_date'] = self.start_date
+        exp_config['data']['test']['end_date'] = self.end_date
 
         dss = DatasetSetup(exp_config, inference=True)
         dss.setup()
 
-        val_dataset = dss.get_val_ds()
+        test_dataset = dss.get_test_ds()
         train_dataset = dss.get_train_ds()
 
-        val_dataloader = DataLoader(val_dataset, batch_size=16)
+        test_dataloader = DataLoader(
+            test_dataset, batch_size=128, num_workers=16, prefetch_factor=2)
 
         ckpt_file = os.path.join(exp_config["training"]["weights_path"],
                                  exp_config["name"], f"weights-{exp}.ckpt")
@@ -151,13 +152,13 @@ class Evaluator:
         model = VisionTransformer(**model_args).to(self.device)
         model.load_state_dict(state_dict)
         model.eval()
-        metrics_res, y_pred, y_true, dates = self.inference_on_val_data(
-            model, val_dataloader, train_dataset)
+        metrics_res, y_pred, y_true, dates = self.inference_on_test_data(
+            model, test_dataloader, train_dataset)
 
         common_data = {
-            "longitudes": val_dataset.longitudes,
-            "latitudes": val_dataset.latitudes,
-            "extent": val_dataset.extent,
+            "longitudes": test_dataset.longitudes,
+            "latitudes": test_dataset.latitudes,
+            "extent": test_dataset.extent,
             "dates": dates
         }
         if self.var_name == "pr":
@@ -182,10 +183,10 @@ class Evaluator:
                     self.inference_res_path, f'common_data.pkl'), 'wb') as f:
                 pickle.dump(common_data, f)
 
-    def inference_on_val_data(self, model, val_dataloader, train_dataset):
+    def inference_on_test_data(self, model, test_dataloader, train_dataset):
         validation_items = {'x': [], 'y_pred': [], 'y_true': [], 'dates': []}
         with inference_mode("Inference"):
-            for batch in tqdm(val_dataloader, desc="Validation", colour="green"):
+            for batch in tqdm(test_dataloader, desc="Validation", colour="green"):
                 low_res, high_res, outputs, dates = inference_step(
                     batch, model, train_dataset, self.device, dates=True)
                 validation_items['y_pred'].append(outputs.detach().cpu())
@@ -203,7 +204,7 @@ class Evaluator:
 
         # Convert to pandas datetime
         dates = pd.to_datetime(dates, format="%Y-%m-%d")
-        metrics_list = ['mae', 'mse', 'ssim', 'gdl',
+        metrics_list = ['mae', 'mse', 'dssim', 'gdl',
                         'spectral', 'wavelet', 'wavelet_complex', 'wasserstein']
         metrics_res = {name: get_criterion(
             name, **self.loss_config['losses'].get(name, {}) or {})(y_pred, y_true).item() for name in metrics_list}
@@ -314,6 +315,6 @@ class Evaluator:
         plt.tight_layout()
 
         plt.savefig(os.path.join(
-            self.plot_path, f'val_radar.pdf'), bbox_inches='tight')
+            self.plot_path, f'test_radar.pdf'), bbox_inches='tight')
         plt.show()
         plt.close()

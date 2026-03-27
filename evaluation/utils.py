@@ -21,6 +21,7 @@ COLORS_CB_FRIENDLY = [
     "xkcd:dark cyan",      # cyan
     "#bcbd22",             # yellow-green
     "#e377c2",             # pink
+    "#7f7f7f",             # gray
 ]
 
 

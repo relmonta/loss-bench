@@ -1,8 +1,8 @@
 model,rel_hp_delta
-mse,92.00
-wavelet_complex,89.24
-combo_mse_spectral,65.42
-combo_nllbg_spectral,55.43
-combo_fmse_spectral,46.59
-combo_fmse_spectral_wavelet,61.97
-combo_nllbg_fmse_spectral,58.53
+mse,89.99
+wavelet_complex,86.04
+combo_mse_spectral,68.65
+combo_nllbg_spectral,54.71
+combo_fmse_spectral,45.47
+combo_fmse_spectral_wavelet,57.97
+combo_nllbg_fmse_spectral,53.64

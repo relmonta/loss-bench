@@ -1,0 +1,7 @@
+model,rel_hp_delta
+mse,89.99
+log_combo_nllbg_wavelet,53.67
+log_combo_nllbg_wavelet_19,55.75
+log_combo_nllbg_wavelet_37,51.09
+log_combo_nllbg_wavelet_73,56.71
+log_combo_nllbg_wavelet_91,62.15

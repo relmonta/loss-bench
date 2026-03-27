@@ -11,101 +11,29 @@ import warnings
 
 
 class SpectralLoss(nn.Module):
-    def __init__(self, p=1, calibration=5e-3, f_min=None, f_max=None,
-                 use_mask=False, use_power=False, reduction='mean', energy_pct=None):
+    def __init__(self, p=1, calibration=5e-3, use_power=False, reduction='mean'):
         """
-        Spectral loss with frequency range restriction or energy-based high-pass filtering.
+        Spectral loss.
 
         Args:
             p (int): Order of Lp norm (1 for L1, 2 for L2, etc).
             calibration (float): Global scaling factor for the loss.
-            f_min (float): Minimum normalised frequency (0 to 1, relative to Nyquist).
-            f_max (float): Maximum normalised frequency.
-            use_mask (bool): Whether to apply a frequency-domain mask.
             use_power (bool): If True, use power spectrum (|FFT|^2), else magnitude.
             reduction (str): 'mean' (default), 'sum', or 'none'.
-            energy_pct (float or None): If set (0–100), applies a high-pass filter keeping
-                                        only frequencies that contribute at least this % of energy.
         """
         super().__init__()
         self.p = p
         self.calibration = calibration
-        self.f_min = f_min
-        self.f_max = f_max
-        self.use_mask = use_mask
         self.use_power = use_power
         self.reduction = reduction
-        self.energy_pct = energy_pct  # in %
 
         self.mask = None
-
-    def _compute_energy_mask(self, spectrum, freq_r):
-        """
-        Builds a high-pass frequency mask that retains a target energy percentage.
-        Computes the mask per batch and per channel (B, C, H, W).
-
-        Args:
-            spectrum (Tensor): |FFT| or |FFT|², shape (B, C, H, W)
-            freq_r (Tensor): Radial frequency, shape (B, C, H, W)
-        Returns:
-            mask (Tensor): Binary mask, shape (B, C, H, W)
-        """
-        B, C, H, W = spectrum.shape
-        flat_spec = spectrum.view(B, C, -1)
-        flat_freq = freq_r.view(B, C, -1)
-
-        # Sort by ascending frequency
-        sorted_freq, sorted_idx = torch.sort(flat_freq, dim=-1)
-        sorted_energy = flat_spec.gather(-1, sorted_idx)
-
-        cumsum_energy = torch.cumsum(sorted_energy, dim=-1)
-        total_energy = cumsum_energy[:, :, -1]
-        target_energy = total_energy * (self.energy_pct / 100.0)
-
-        # Find the frequency threshold that achieves the target energy
-        over_target = cumsum_energy >= target_energy.unsqueeze(-1)
-        idx_cutoff = over_target.float().argmax(dim=-1)  # shape (B, C)
-        freq_cutoff = sorted_freq.gather(-1,
-                                         idx_cutoff.unsqueeze(-1)).squeeze(-1)
-
-        # Broadcast and apply the frequency threshold to build mask
-        freq_cutoff = freq_cutoff.unsqueeze(-1).unsqueeze(-1)  # (B, C, 1, 1)
-        mask = (freq_r >= freq_cutoff).float()  # High-pass
-
-        return mask
-
-    def _update_freq_mask(self, target, spec_ref=None):
-        H, W = target.shape[-2:]
-        device = target.device
-
-        freq_y = torch.fft.fftfreq(H, d=1.0, device=device)
-        freq_x = torch.fft.fftfreq(W, d=1.0, device=device)
-        fx, fy = torch.meshgrid(freq_x, freq_y, indexing='ij')
-        freq_r = torch.sqrt(fx ** 2 + fy ** 2)
-        # expand to match target shape (B, C, H, W)
-        freq_r = freq_r.unsqueeze(0).unsqueeze(0).expand(
-            target.shape[0], target.shape[1], H, W)
-
-        if self.energy_pct is not None:
-            if spec_ref is None:
-                raise ValueError(
-                    "spec_ref must be provided when energy_pct is set")
-            # Use reference spectrum to compute energy-based mask
-            energy_mask = self._compute_energy_mask(spec_ref, freq_r)
-            # Expand mask to include batch and channel axes
-            self.mask = energy_mask.to(device)
-        else:
-            # Range-based frequency mask
-            fmin_abs = self.f_min * freq_r.max()
-            fmax_abs = self.f_max * freq_r.max()
-            mask = (freq_r >= fmin_abs) & (freq_r <= fmax_abs)
-            self.mask = mask.float().to(device)
 
     def forward(self, pred, target):
         assert pred.shape == target.shape, "pred and target must have the same shape"
 
-        pred_fft = torch.fft.fft2(pred, dim=(-2, -1))
-        target_fft = torch.fft.fft2(target, dim=(-2, -1))
+        pred_fft = torch.fft.fft2(pred, dim=(-2, -1), norm='ortho')
+        target_fft = torch.fft.fft2(target, dim=(-2, -1), norm='ortho')
 
         if self.use_power:
             pred_spec = torch.abs(pred_fft) ** 2
@@ -113,20 +41,6 @@ class SpectralLoss(nn.Module):
         else:
             pred_spec = torch.abs(pred_fft)
             target_spec = torch.abs(target_fft)
-
-        # Update mask if shape changed or not set
-        if self.use_mask:
-            # print(
-            #     f"Using mask: {self.use_mask}, cached shape: {self._cached_shape}, current shape: {(H, W)}")
-            #
-            if self.mask is None or self.energy_pct is not None:
-                self._update_freq_mask(target, spec_ref=target_spec)
-
-            mask = self.mask
-            while mask.dim() < pred_spec.dim():
-                mask = mask.unsqueeze(0)
-            pred_spec = pred_spec * mask
-            target_spec = target_spec * mask
 
         # Compute loss
         loss = (pred_spec - target_spec).abs() ** self.p
@@ -146,35 +60,33 @@ class SpectralLoss(nn.Module):
 class LossCombination(nn.Module):
     def __init__(self, losses, lambdas):
         super(LossCombination, self).__init__()
+        self.loss_names = list(losses.keys())
         self.losses = []
-        self.lambdas = []
+        self.lambdas = lambdas
         assert len(losses) == len(
             lambdas), "Number of losses and lambdas must match"
 
         for i, loss in enumerate(losses):
             self.losses.append(get_criterion(loss, **losses[loss]))
-            self.lambdas.append(lambdas[i])
         self.losses = nn.ModuleList(self.losses)
 
-    def forward(self, pred, target, idx_pr=None):
+    def forward(self, pred, target):
         loss = 0
         for i, loss_fn in enumerate(self.losses):
             if isinstance(pred, list):  # Output are Bernoulli-Gamma parameters
                 if isinstance(loss_fn, NLLBernoulliGammaLoss):
-                    loss += self.lambdas[i] * \
-                        loss_fn([p.clone() for p in pred], target)
-                else:
-                    # Compute the expected value
+                    loss_i = loss_fn([p.clone() for p in pred], target)
+                else:                    
                     if len(pred) != 3:
                         raise ValueError(
                             "Expected pred to be a list of 3 elements for NLLBernoulliGammaLoss")
+                    # Compute the expected value of the Bernoulli-Gamma distribution
                     expected_value = pred[0] * pred[1] * pred[2]
-                    if isinstance(loss_fn, WaveletLoss):
-                        expected_value = expected_value.to(dtype=pred[0].dtype)
-                    loss += self.lambdas[i] * \
-                        loss_fn(expected_value.clone(), target)
+                    expected_value = expected_value.to(dtype=pred[0].dtype)
+                    loss_i = loss_fn(expected_value.clone(),target)
             else:
-                loss += self.lambdas[i] * loss_fn(pred.clone(), target)
+                loss_i = loss_fn(pred.clone(), target)
+            loss += self.lambdas[i] * loss_i 
         return loss
 
 
@@ -184,13 +96,6 @@ class FilteredLpLoss(nn.Module):
     """
 
     def __init__(self, sigma=2.0, p=2, calibration=1):
-        """
-        Initializes the Gaussian kernel.
-
-        Args:
-        - sigma (float): Standard deviation of the Gaussian distribution.
-        - p (int): Order of the Lp norm (default is 2 for L2 loss).
-        """
         super(FilteredLpLoss, self).__init__()
         self.sigma = sigma
         self.p = p
@@ -310,9 +215,9 @@ class WaveletLoss(nn.Module):
         return self.calibration * loss
 
 
-class SSIMLoss(nn.Module):
+class DSSIMLoss(nn.Module):
     def __init__(self, calibration=30):
-        super(SSIMLoss, self).__init__()
+        super(DSSIMLoss, self).__init__()
         self.calibration = calibration
 
     def forward(self, pred, target):
@@ -596,10 +501,10 @@ def get_criterion(name: str, **kwargs) -> Callable:
     elif name.startswith("wavelet"):
         # ||DWT(y) - DWT(y_pred)||_{Lp}
         criterion = WaveletLoss(**kwargs)
-    elif name == 'ssim':
-        # Structural Similarity Index (SSIM) Loss
-        # SSIMLoss = 1 - SSIM(x, y)
-        criterion = SSIMLoss(**kwargs)
+    elif name == 'dssim':
+        # Structural Dissimilarity Index (DSSIM) Loss
+        # DSSIMLoss = 1 - SSIM(x, y)
+        criterion = DSSIMLoss(**kwargs)
     elif name.startswith("gdl"):
         # Gradient Difference Loss
         # GDL = ||∇(y) - ∇(y_pred)||_{Lp}
@@ -620,7 +525,7 @@ def get_criterion(name: str, **kwargs) -> Callable:
         criterion = LossCombination(**kwargs)
     else:
         raise ValueError(
-            f"Criterion '{name.lower()}' not recognized. Supported: mse, mae, spectral, f_mae, f_mse, wavelet, ssim, gdl, emd, asym, nllbg, combination."
+            f"Criterion '{name.lower()}' not recognized. Supported: mse, mae, spectral, f_mae, f_mse, wavelet, dssim, gdl, emd, asym, nllbg, combination."
         )
 
     return criterion

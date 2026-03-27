@@ -3,56 +3,38 @@
 # These combinations can then be referenced in the experiment configuration files.
 losses:
   mse:
-    calibration: 0.5
+    calibration: 1
   mae:
     calibration: 1
   nllbg:
-    calibration: 2
+    calibration: 1
   f_mse:
-    calibration: 0.5
+    calibration: 1
     sigma: 2
   f_mae:
     calibration: 1
     sigma: 2
   wasserstein:
   gdl:
-    calibration: 0.3
+    calibration: 1
     p: 2
   gdl_l1:
     calibration: 1
     p: 1
-  ssim:
-    calibration: 30
+  dssim:
+    calibration: 1
   asym:
     calibration: 1
   spectral:
     p: 1
-    calibration: 0.003
-    f_min: 0.15
-    f_max: 0.67
-    use_mask: false
+    calibration: 1
     use_power: false
   spectral_l2:
     p: 2
-    calibration: 0.005
-    f_min: 0.15
-    f_max: 0.67
-    use_mask: false
+    calibration: 1
     use_power: false    
-  spectral_hp:
-    p: 1
-    calibration: 0.1
-    use_power: false
-    use_mask: true   
-    energy_pct: 99
-  spectral_hp_5:
-    p: 1
-    calibration: 0.02
-    use_power: false
-    use_mask: true   
-    energy_pct: 95
   wavelet:
-    calibration: 0.5  
+    calibration: 1
     wavelet: 'sym4' 
     n_levels: 4 
     p: 1
@@ -62,42 +44,42 @@ losses:
     p: 1
     complex: true
   wavelet_l2:
-    calibration: 0.5  
+    calibration: 1 
     wavelet: 'sym4' 
     n_levels: 4 
     p: 2
   wavelet_haar:
-    calibration: 0.5  
+    calibration: 1  
     wavelet: 'haar' 
     n_levels: 4 
     p: 1
   wavelet_db4:
-    calibration: 0.5
+    calibration: 1
     wavelet: 'db4'
     n_levels: 4
     p: 1
   wavelet_sym4:
-    calibration: 0.5
+    calibration: 1
     wavelet: 'sym4'
     n_levels: 4
     p: 1
   wavelet_coif2:
-    calibration: 0.5
+    calibration: 1
     wavelet: 'coif2'
     n_levels: 4
     p: 1
   wavelet_bior1_3:
-    calibration: 0.5
+    calibration: 1
     wavelet: 'bior1.3'
     n_levels: 4
     p: 1
   wavelet_bior4_4:
-    calibration: 0.5
+    calibration: 1
     wavelet: 'bior4.4'
     n_levels: 4
     p: 1
   wavelet_rbio1_3:
-    calibration: 0.5
+    calibration: 1
     wavelet: 'rbio1.3'
     n_levels: 4
     p: 1
@@ -107,8 +89,8 @@ losses:
     complex: true
     n_levels: 4
     p: 1
-  combo_mse_ssim:
-    losses: ["mse", "ssim"]
+  combo_mse_dssim:
+    losses: ["mse", "dssim"]
     lambdas: [0.5, 0.5]
   combo_mse_spectral:
     losses: ["mse", "spectral"]
@@ -125,17 +107,14 @@ losses:
   combo_mse_gdl_l1:
     losses: ["mse", "gdl_l1"]
     lambdas: [0.5, 0.5]    
-  combo_mse_spectral_hp:
-    losses: ["mse", "spectral_hp"]
-    lambdas: [0.5, 0.5]
-  combo_mse_spectral_hp_5:
-    losses: ["mse", "spectral_hp_5"]
-    lambdas: [0.5, 0.5]
   combo_mse_wavelet_filtered:
     losses: ["mse", "wavelet_filtered"]
     lambdas: [0.5, 0.5]
-  combo_fmse_ssim:
-    losses: ["f_mse", "ssim"]
+  combo_mse_nllbg:
+    losses: ["mse", "nllbg"]
+    lambdas: [0.5, 0.5]
+  combo_fmse_dssim:
+    losses: ["f_mse", "dssim"]
     lambdas: [0.5, 0.5]
   combo_fmse_spectral:
     losses: ["f_mse", "spectral"]
@@ -146,17 +125,11 @@ losses:
   combo_fmse_gdl:
     losses: ["f_mse", "gdl"]
     lambdas: [0.5, 0.5]
-  combo_fmse_spectral_hp:
-    losses: ["f_mse", "spectral_hp"]
-    lambdas: [0.5, 0.5]
-  combo_fmse_spectral_hp_5:
-    losses: ["f_mse", "spectral_hp_5"]
-    lambdas: [0.5, 0.5]
   combo_fmse_wavelet_filtered:
     losses: ["f_mse", "wavelet_filtered"]
     lambdas: [0.5, 0.5]
-  combo_mse_ssim_spectral:
-    losses: ["mse", "ssim", "spectral"]
+  combo_mse_dssim_spectral:
+    losses: ["mse", "dssim", "spectral"]
     lambdas: [0.3333333, 0.3333333, 0.3333333]
   combo_mse_spectral_wavelet:
     losses: ["mse", "spectral", "wavelet_complex"]
@@ -167,17 +140,14 @@ losses:
   combo_mse_gdl_spectral:
     losses: ["mse", "gdl", "spectral"]   
     lambdas: [0.3333333, 0.3333333, 0.3333333]
-  combo_mse_ssim_wavelet:
-    losses: ["mse", "ssim", "wavelet_complex"]
+  combo_mse_dssim_wavelet:
+    losses: ["mse", "dssim", "wavelet_complex"]
     lambdas: [0.3333333, 0.3333333, 0.3333333]
-  combo_mse_ssim_gdl:
-    losses: ["mse", "ssim", "gdl"]
+  combo_mse_dssim_gdl:
+    losses: ["mse", "dssim", "gdl"]
     lambdas: [0.3333333, 0.3333333, 0.3333333]
-  combo_nllbg_ssim:
-    losses: ["nllbg", "ssim"]
-    lambdas: [0.5, 0.5]
-  combo_mse_nllbg:
-    losses: ["mse", "nllbg"]
+  combo_nllbg_dssim:
+    losses: ["nllbg", "dssim"]
     lambdas: [0.5, 0.5]
   combo_nllbg_asym:
     losses: ["nllbg", "asym"]
@@ -185,8 +155,8 @@ losses:
   combo_asym_spectral:
     losses: ["asym", "spectral"]
     lambdas: [0.5, 0.5]
-  combo_ssim_asym:
-    losses: ["ssim", "asym"]
+  combo_dssim_asym:
+    losses: ["dssim", "asym"]
     lambdas: [0.5, 0.5]    
   combo_mse_nllbg_spectral:
     losses: ["mse", "nllbg", "spectral"]
@@ -206,8 +176,8 @@ losses:
   combo_nllbg_spectral_wavelet:
     losses: ["nllbg", "spectral", "wavelet_complex"]
     lambdas: [0.3333333, 0.3333333, 0.3333333]
-  combo_nllbg_ssim_spectral:
-    losses: ["nllbg", "ssim", "spectral"]
+  combo_nllbg_dssim_spectral:
+    losses: ["nllbg", "dssim", "spectral"]
     lambdas: [0.3333333, 0.3333333, 0.3333333]
   combo_nllbg_gdl:
     losses: ["nllbg", "gdl"]
@@ -221,6 +191,62 @@ losses:
   combo_fmse_spectral_wavelet:
     losses: ["f_mse", "spectral", "wavelet_complex"]
     lambdas: [0.3333333, 0.3333333, 0.3333333]
+  # testing different weightings
+  # combo_nllbg_wavelet
+  combo_nllbg_wavelet_19:
+    losses: ["nllbg", "wavelet_complex"]
+    lambdas: [0.1, 0.9]
+  combo_nllbg_wavelet_37:
+    losses: ["nllbg", "wavelet_complex"]
+    lambdas: [0.3, 0.7]
+  combo_nllbg_wavelet_73:
+    losses: ["nllbg", "wavelet_complex"]
+    lambdas: [0.7, 0.3]
+  combo_nllbg_wavelet_91:
+    losses: ["nllbg", "wavelet_complex"]
+    lambdas: [0.9, 0.1]
+  # combo_fmse_spectral
+  combo_fmse_spectral_19:
+    losses: ["f_mse", "spectral"]
+    lambdas: [0.1, 0.9]
+  combo_fmse_spectral_37:
+    losses: ["f_mse", "spectral"]
+    lambdas: [0.3, 0.7]
+  combo_fmse_spectral_73:
+    losses: ["f_mse", "spectral"]
+    lambdas: [0.7, 0.3]
+  combo_fmse_spectral_91:
+    losses: ["f_mse", "spectral"]
+    lambdas: [0.9, 0.1]
+  # combo_mse_nllbg_wavelet
+  combo_mse_nllbg_wavelet_136:
+    losses: ["mse", "nllbg", "wavelet_complex"]
+    lambdas: [0.1, 0.3, 0.6]
+  combo_mse_nllbg_wavelet_163:
+    losses: ["mse", "nllbg", "wavelet_complex"]
+    lambdas: [0.1, 0.6, 0.3]
+  combo_mse_nllbg_wavelet_316:
+    losses: ["mse", "nllbg", "wavelet_complex"]
+    lambdas: [0.3, 0.1, 0.6]
+  combo_mse_nllbg_wavelet_361:
+    losses: ["mse", "nllbg", "wavelet_complex"]
+    lambdas: [0.3, 0.6, 0.1]
+  combo_mse_nllbg_wavelet_613:
+    losses: ["mse", "nllbg", "wavelet_complex"]
+    lambdas: [0.6, 0.1, 0.3]
+  combo_mse_nllbg_wavelet_631:
+    losses: ["mse", "nllbg", "wavelet_complex"]
+    lambdas: [0.6, 0.3, 0.1]
+  combo_mse_nllbg_wavelet_811:
+    losses: ["mse", "nllbg", "wavelet_complex"]
+    lambdas: [0.8, 0.1, 0.1]
+  combo_mse_nllbg_wavelet_181:
+    losses: ["mse", "nllbg", "wavelet_complex"]
+    lambdas: [0.1, 0.8, 0.1]
+  combo_mse_nllbg_wavelet_118:
+    losses: ["mse", "nllbg", "wavelet_complex"]
+    lambdas: [0.1, 0.1, 0.8]    
+  
   # You can defined more combinations
   # combo_name:
   #   losses: ["loss1", "loss2", ...]
@@ -235,15 +261,13 @@ display:
   asym: "Asym-MAE"
   gdl: "GDL"
   gdl_l1: "GDL (L1)"
-  ssim: "SSIM"
+  dssim: "DSSIM"
   f_mse: "F-MSE"
   f_mae: "F-MAE"
   wavelet: "Wavelet"
-  wavelet_l2: "Wavelet (L2)"    
+  wavelet_l2: "Wavelet (L2)"   
   spectral: "Spectral"
   spectral_l2: "Spec (L2)"
-  spectral_hp: "Spec 1% HP"
-  spectral_hp_5: "Spec 5% HP"
   wavelet_filtered: "Filtered wavelet"
   wasserstein: "Wasserstein"
   wavelet_haar: "Wavelet Haar"
@@ -258,14 +282,12 @@ short:
   mse: "MSE"
   mae: "MAE"
   gdl: "GDL"
-  ssim: "SSIM"
+  dssim: "DSSIM"
   nllbg: "NLL-BG"
   asym: "Asym-MAE"
   f_mse: "F-MSE"
   f_mae: "F-MAE"
   wavelet: "Wav"
   spectral: "Spec"
-  spectral_hp: "Spec HP 1%"
-  spectral_hp_5: "Spec HP 5%"
   wavelet_filtered: "Filt Wav"
   wavelet_complex: "C-Wav"
