@@ -21,7 +21,7 @@ def get_netcdf(path, var_name, year):
     if not os.path.exists(local_path):
         print(f"File {local_path} not found. Try downloading from zenodo...")
         # zenodo url
-        zenodo_url = f"https://zenodo.org/records/19263943/files/{var_name}_1d_{year}_ERA5.nc"
+        zenodo_url = f"https://zenodo.org/records/19349761/files/{var_name}_1d_{year}_ERA5.nc"
         # try to download the file using wget
         os.makedirs(os.path.dirname(local_path), exist_ok=True)
         try:
